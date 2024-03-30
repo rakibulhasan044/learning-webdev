@@ -25,6 +25,17 @@ const Login = () => {
       });
   };
 
+  const handleGithubSignIn = () => {
+    signInWithPopup(auth, githubProvider)
+    .then(result => {
+      const loggedUser = result.user
+      setUser(loggedUser)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
   const handleSignOut = () => {
     signOut(auth)
       .then((result) => {
@@ -43,15 +54,19 @@ const Login = () => {
           Sign Out
         </button>
       ) : (
-        <button onClick={handleGoogleSignIn} className="text-2xl text-center">
+        <div className="flex gap-10 justify-center ">
+          <button onClick={handleGoogleSignIn} className="text-2xl text-center bg-slate-200 p-2 border-black rounded-3xl">
           Google login
+        </button><button onClick={handleGithubSignIn} className="text-2xl text-center bg-slate-200 p-2 border-black rounded-3xl">
+          Github login
         </button>
+        </div>
       )}
       {user && (
         <div className=" flex flex-col justify-center gap-5 items-center text-center">
           <h3>user: {user?.displayName}</h3>
-          <p>Email: {user.email}</p>
-          <img src={user.photoURL} alt="" />
+          <p>Email: {user?.email}</p>
+          <img src={user?.photoURL} alt="" />
         </div>
       )}
     </div>
